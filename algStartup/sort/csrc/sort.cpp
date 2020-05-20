@@ -103,7 +103,7 @@ namespace algstartup{
 		quickSortRecursive(nums, q+1, hi);
 	}
 
-	static void quickSort(vector<dtype> &nums, int n){
+	void quickSort(vector<dtype> &nums, int n){
 		if(nums.empty() || n <= 1) return;
 		quickSortRecursive(nums, 0, n-1);
 	}
