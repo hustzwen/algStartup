@@ -85,6 +85,22 @@ ListNode* removeElements(ListNode* head, int val){
 	return dummy->next;
 }
 
+ListNode* cycleEntrance(ListNode* head){
+	if(!head) return nullptr;
+	ListNode *slow = head, *fast = head;
+	while(slow != fast){
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+	fast = head;
+	while (slow != fast)
+	{
+		slow = slow->next;
+		fast = fast->next;
+	}
+	return slow;
+}
+
 ListNode* mergeTwoSortedLists(ListNode* l1, ListNode* l2){
 	// 哨兵
 	ListNode *dummy = new ListNode(-1);
@@ -170,7 +186,6 @@ bool isPalindromeList(ListNode* head){
 	return true;
 }
 
-
 ListNode* quickSortList(ListNode* head){
 	// stop condition
 	if(head == nullptr || head->next == nullptr) return head;
@@ -215,6 +230,34 @@ ListNode* quickSortList(ListNode* head){
 	ls = nullptr, rs = nullptr;
 
 	return left;
+}
+
+ListNode* mergeSortList(ListNode* head){
+	if (head == nullptr || head->next == nullptr) return head;
+	ListNode *slow = head, *fast = head->next; // 在slow处断开
+	while (fast && fast->next)
+	{
+		slow = slow->next;
+		fast = fast->next->next;
+	}
+	fast = slow->next;
+	slow->next = nullptr;
+	return mergeTwoSortedLists(mergeSortList(head), mergeSortList(fast));
+}
+
+/*merge [start, end]*/
+ListNode* mergekSortLists(std::vector<ListNode *> &lists, int start, int end){
+	if (start == end) return lists[start];
+	int mid = start + (end - start) / 2;
+	ListNode *l1 = mergekSortLists(lists, start, mid);
+	ListNode *l2 = mergekSortLists(lists, mid+1, end);
+	return mergeTwoSortedLists(l1, l2);
+}
+
+/*合并K个排序链表*/
+ListNode* mergekSortLists(std::vector<ListNode *> &lists){
+	if(lists.empty()) return nullptr;
+	return mergekSortLists(lists, 0, lists.size()-1);
 }
 
 }
