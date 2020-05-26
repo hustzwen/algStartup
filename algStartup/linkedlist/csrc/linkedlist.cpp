@@ -158,7 +158,7 @@ ListNode* reversekGroup(ListNode* head, int k){
 		if(node2 == nullptr) return head;
 		node2 = node2->next;
 	}
-	ListNode * new_head = reverse(node1, node2);
+	ListNode *new_head = reverse(node1, node2);
 	node1->next = reversekGroup(node2, k);
 	return new_head;
 }
